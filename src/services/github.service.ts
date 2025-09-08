@@ -36,6 +36,7 @@ export class GitHubService {
             nodes {
               number
               title
+              body
               url
               createdAt
               comments(first: 50) {

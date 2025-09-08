@@ -49,17 +49,16 @@ export class CsvExporterService {
   private groupCommentsByPR(comments: Comment[], prs: PullRequest[]): Map<number, string[]> {
     const prCommentsMap = new Map<number, string[]>();
 
-    // Group comments by PR number
+    // Seed map with PR description (body) as the first entry, if present
+    for (const pr of prs) {
+      const initial: string[] = pr.body ? [pr.body] : [];
+      prCommentsMap.set(pr.number, initial);
+    }
+
+    // Append comments by PR number
     for (const comment of comments) {
       const existing = prCommentsMap.get(comment.prNumber) || [];
       prCommentsMap.set(comment.prNumber, existing.concat([comment.body]));
-    }
-
-    // Ensure PRs without comments appear with empty array
-    for (const pr of prs) {
-      if (!prCommentsMap.has(pr.number)) {
-        prCommentsMap.set(pr.number, []);
-      }
     }
 
     return prCommentsMap;

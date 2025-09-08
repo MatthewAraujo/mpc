@@ -9,6 +9,7 @@ export interface Comment {
 export interface PullRequest {
   number: number;
   title: string;
+  body: string;
   url: string;
   createdAt: string;
   comments: {
